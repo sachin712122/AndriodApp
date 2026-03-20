@@ -14,6 +14,7 @@ espresso_core = "3.7.0"
 junit = "4.13.2"
 kotlin = "2.3.0"
 min_sdk_version = "23"
+recyclerview = "1.4.0"
 nexus_publish = "2.0.0"
 target_sdk_version = "36"
 
@@ -34,6 +35,7 @@ compose_ui = { module = "androidx.compose.ui:ui" }
 compose_ui_tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose_ui_test_junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose_ui_test_manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx_recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 detekt_formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 espresso_core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso_core" }
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
