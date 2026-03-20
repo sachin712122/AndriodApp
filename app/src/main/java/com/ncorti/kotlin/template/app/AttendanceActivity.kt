@@ -1,15 +1,18 @@
 package com.ncorti.kotlin.template.app
 
-import android.app.admin.DevicePolicyManager
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.ncorti.kotlin.template.app.databinding.ActivityAttendanceBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -20,11 +23,18 @@ class AttendanceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAttendanceBinding
     private lateinit var studentManager: StudentManager
 
+    companion object {
+        private const val TAG = "AttendanceActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAttendanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
         studentManager = StudentManager(this)
+
+        // Keep the screen on for the duration of the kiosk session
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // Block back navigation while in kiosk mode
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -47,20 +57,30 @@ class AttendanceActivity : AppCompatActivity() {
         refreshList()
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            // Re-apply immersive mode whenever window focus is restored (e.g. after a dialog closes)
+            hideSystemUI()
+        }
+    }
+
+    /** Hide the status bar and navigation bar for a true full-screen kiosk experience. */
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.root).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
+
     private fun enterKioskMode() {
-        val dpm = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        if (dpm.isLockTaskPermitted(packageName) ||
-            dpm.isDeviceOwnerApp(packageName) ||
-            dpm.isProfileOwnerApp(packageName)
-        ) {
+        try {
             startLockTask()
-        } else {
-            // Fallback: attempt screen pinning (requires user confirmation on non-managed devices)
-            try {
-                startLockTask()
-            } catch (e: SecurityException) {
-                Toast.makeText(this, getString(R.string.kiosk_not_available), Toast.LENGTH_LONG).show()
-            }
+        } catch (e: SecurityException) {
+            Log.w(TAG, "startLockTask failed – kiosk lock-task mode unavailable on this device", e)
+            Toast.makeText(this, getString(R.string.kiosk_not_available), Toast.LENGTH_LONG).show()
         }
     }
 
