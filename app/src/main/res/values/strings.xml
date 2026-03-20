@@ -1,10 +1,26 @@
 <resources>
-    <string name="app_name">Kotlin Android Template</string>
-    <string name="title">This is just a template</string>
-    <string name="description">You can compute a factorial using the library-kotlin module. The result will be also shown in a notification using the library-android module.</string>
-    <string name="factorial_hint">Insert a number to compute his factorial</string>
-    <string name="compute">Compute</string>
-    <string name="notification_title">The Result is: %s</string>
-    <string name="please_enter_a_number">Please Enter a Number</string>
-    <string name="compose_version">In Compose</string>
+    <string name="app_name">Student Attendance</string>
+    <string name="total_students">Total Students</string>
+    <string name="present_today">Present Today</string>
+    <string name="students">Students</string>
+    <string name="register_students">Register Students</string>
+    <string name="start_attendance">Start Attendance</string>
+    <string name="no_students_registered">No students registered yet.</string>
+    <string name="add_new_student">Add New Student</string>
+    <string name="student_name_hint">Student Full Name</string>
+    <string name="add_student">Add Student</string>
+    <string name="registered_students">Registered Students</string>
+    <string name="student_added">%s registered successfully</string>
+    <string name="student_removed">%s removed</string>
+    <string name="name_required">Name is required</string>
+    <string name="delete_student">Remove student</string>
+    <string name="attendance_kiosk">Attendance</string>
+    <string name="tap_your_name">Tap your name to mark attendance</string>
+    <string name="present">Present</string>
+    <string name="done_long_press_to_exit">Done (Long-press to Exit)</string>
+    <string name="exit_kiosk_title">Exit Kiosk Mode</string>
+    <string name="exit_kiosk_message">Are you sure you want to exit attendance mode?</string>
+    <string name="yes">Yes, Exit</string>
+    <string name="no">Cancel</string>
+    <string name="kiosk_not_available">Kiosk mode not available on this device.</string>
 </resources>

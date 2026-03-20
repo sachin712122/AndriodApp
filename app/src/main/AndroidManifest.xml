@@ -10,14 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".MainActivity"
+
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".RegisterStudentActivity"
+            android:exported="false"
+            android:label="@string/register_students" />
+
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false"
+            android:label="@string/attendance_kiosk"
+            android:lockTaskMode="if_whitelisted"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
